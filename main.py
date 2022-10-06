@@ -24,9 +24,8 @@ def home():
 @app.route('/blog/<num>')
 def get_blog(num):
     # Search post_list for a post with id of num
-    found_post = 0
+    found_post = None
     for current_post in post_list:
-        print(current_post.post_id, num)
         if current_post.post_id == int(num):
             found_post = current_post
     return render_template("post.html", post=found_post)
