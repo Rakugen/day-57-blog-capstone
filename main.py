@@ -8,26 +8,27 @@ app = Flask(__name__)
 post_list = []
 response = requests.get(url="https://api.npoint.io/c790b4d5cab58020d391")
 
+# Create Post objects for each post from json
 for post in response.json():
     new_post = Post(post["id"], post["title"], post["subtitle"], post["body"])
     post_list.append(new_post)
 
-# TODO: modify home page to show blog names and links
-#   then have the links redirect to its individual blog page
+
+# home route takes post_list and creates index.html with each post listing its title,subtitle and link to its post page
 @app.route('/')
 def home():
-
     return render_template("index.html", posts=post_list)
 
-# TODO: create get_blog route and render all blog posts from npoint https://api.npoint.io/c790b4d5cab58020d391
+
+# get_blog route goes to individual posts page from index.html links
 @app.route('/blog/<num>')
 def get_blog(num):
     # Search post_list for a post with id of num
     found_post = 0
     for current_post in post_list:
-        if current_post.post_id == num:
+        print(current_post.post_id, num)
+        if current_post.post_id == int(num):
             found_post = current_post
-
     return render_template("post.html", post=found_post)
 
 
